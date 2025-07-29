@@ -538,9 +538,9 @@ const Emprestimos = () => {
 
           {/* Filtros */}
           <div className="space-y-4">
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-3 items-center">
               {/* Filtro por Cliente */}
-              <div className="flex-1 min-w-[200px] max-w-[300px]">
+              <div className="flex-1 min-w-[200px]">
                 <Popover open={clienteFilterOpen} onOpenChange={setClienteFilterOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
@@ -575,7 +575,7 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Mês */}
-              <div className="min-w-[150px]">
+              <div className="flex-1 min-w-[130px]">
                 <MonthYearPicker
                   value={selectedMonth}
                   onSelect={(date) => handleDateFilterChange('month', date)}
@@ -585,7 +585,7 @@ const Emprestimos = () => {
 
               {/* Filtro de Referência - aparece apenas quando mês está selecionado */}
               {selectedMonth && (
-                <div className="min-w-[150px]">
+                <div className="flex-1 min-w-[130px]">
                   <Select value={referenceFilter} onValueChange={setReferenceFilter}>
                     <SelectTrigger>
                       <SelectValue placeholder="Referência" />
@@ -599,7 +599,7 @@ const Emprestimos = () => {
               )}
 
               {/* Filtro por Data do Empréstimo */}
-              <div className="min-w-[170px]">
+              <div className="flex-1 min-w-[150px]">
                 <Popover open={dataEmprestimoOpen} onOpenChange={setDataEmprestimoOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
@@ -620,7 +620,7 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Status */}
-              <div className="min-w-[120px]">
+              <div className="flex-1 min-w-[100px]">
                 <Popover open={statusFilterOpen} onOpenChange={setStatusFilterOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
@@ -649,7 +649,7 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Próxima Parcela */}
-              <div className="min-w-[170px]">
+              <div className="flex-1 min-w-[150px]">
                 <Popover open={proximaParcelaOpen} onOpenChange={setProximaParcelaOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
