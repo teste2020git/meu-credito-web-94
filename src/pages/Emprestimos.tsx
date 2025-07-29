@@ -538,12 +538,12 @@ const Emprestimos = () => {
 
           {/* Filtros */}
           <div className="space-y-4">
-            <div className="flex flex-wrap gap-3 items-center">
+            <div className="grid grid-cols-12 gap-2 items-stretch w-full">
               {/* Filtro por Cliente */}
-              <div className="flex-1 min-w-[200px]">
+              <div className="col-span-3 min-w-0">
                 <Popover open={clienteFilterOpen} onOpenChange={setClienteFilterOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                    <Button variant="outline" className="w-full justify-start text-left font-normal truncate">
                       {selectedClienteId 
                         ? clientes.find(c => c.id === selectedClienteId)?.nome || "Cliente selecionado"
                         : "Cliente"
@@ -575,7 +575,7 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Mês */}
-              <div className="flex-1 min-w-[130px]">
+              <div className={`${selectedMonth ? 'col-span-2' : 'col-span-2'} min-w-0`}>
                 <MonthYearPicker
                   value={selectedMonth}
                   onSelect={(date) => handleDateFilterChange('month', date)}
@@ -585,7 +585,7 @@ const Emprestimos = () => {
 
               {/* Filtro de Referência - aparece apenas quando mês está selecionado */}
               {selectedMonth && (
-                <div className="flex-1 min-w-[130px]">
+                <div className="col-span-2 min-w-0">
                   <Select value={referenceFilter} onValueChange={setReferenceFilter}>
                     <SelectTrigger>
                       <SelectValue placeholder="Referência" />
@@ -599,12 +599,14 @@ const Emprestimos = () => {
               )}
 
               {/* Filtro por Data do Empréstimo */}
-              <div className="flex-1 min-w-[150px]">
+              <div className={`${selectedMonth ? 'col-span-2' : 'col-span-3'} min-w-0`}>
                 <Popover open={dataEmprestimoOpen} onOpenChange={setDataEmprestimoOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {selectedDataEmprestimo ? format(selectedDataEmprestimo, "dd/MM/yyyy") : "Data Empréstimo"}
+                    <Button variant="outline" className="w-full justify-start text-left font-normal truncate">
+                      <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                      <span className="truncate">
+                        {selectedDataEmprestimo ? format(selectedDataEmprestimo, "dd/MM/yyyy") : "Data Empréstimo"}
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -620,12 +622,14 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Status */}
-              <div className="flex-1 min-w-[100px]">
+              <div className="col-span-2 min-w-0">
                 <Popover open={statusFilterOpen} onOpenChange={setStatusFilterOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      <Filter className="mr-2 h-4 w-4" />
-                      {selectedStatus.length > 0 ? `${selectedStatus.length} status` : "Status"}
+                    <Button variant="outline" className="w-full justify-start text-left font-normal truncate">
+                      <Filter className="mr-2 h-4 w-4 shrink-0" />
+                      <span className="truncate">
+                        {selectedStatus.length > 0 ? `${selectedStatus.length} status` : "Status"}
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-64 p-4" align="start">
@@ -649,12 +653,14 @@ const Emprestimos = () => {
               </div>
 
               {/* Filtro por Próxima Parcela */}
-              <div className="flex-1 min-w-[150px]">
+              <div className={`${selectedMonth ? 'col-span-2' : 'col-span-3'} min-w-0`}>
                 <Popover open={proximaParcelaOpen} onOpenChange={setProximaParcelaOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {selectedProximaParcela ? format(selectedProximaParcela, "dd/MM/yyyy") : "Próxima Parcela"}
+                    <Button variant="outline" className="w-full justify-start text-left font-normal truncate">
+                      <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                      <span className="truncate">
+                        {selectedProximaParcela ? format(selectedProximaParcela, "dd/MM/yyyy") : "Próxima Parcela"}
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -670,15 +676,17 @@ const Emprestimos = () => {
               </div>
 
               {/* Botão Limpar Filtros */}
-              <Button 
-                variant="outline" 
-                onClick={limparFiltros}
-                size="icon"
-                className="flex items-center justify-center shrink-0"
-                title="Limpar todos os filtros"
-              >
-                <Eraser className="h-4 w-4" />
-              </Button>
+              <div className="col-span-1 min-w-0">
+                <Button 
+                  variant="outline" 
+                  onClick={limparFiltros}
+                  size="icon"
+                  className="w-full h-full flex items-center justify-center"
+                  title="Limpar todos os filtros"
+                >
+                  <Eraser className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
 
