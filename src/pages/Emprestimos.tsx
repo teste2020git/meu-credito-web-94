@@ -538,126 +538,136 @@ const Emprestimos = () => {
 
           {/* Filtros */}
           <div className="space-y-4">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7">
+            <div className="flex flex-wrap gap-4 items-center">
               {/* Filtro por Cliente */}
-              <Popover open={clienteFilterOpen} onOpenChange={setClienteFilterOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal xl:col-span-2">
-                    {selectedClienteId 
-                      ? clientes.find(c => c.id === selectedClienteId)?.nome || "Cliente selecionado"
-                      : "Cliente"
-                    }
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 p-0" align="start">
-                  <Command>
-                    <CommandInput placeholder="Buscar cliente..." />
-                    <CommandList>
-                      <CommandEmpty>Nenhum cliente encontrado.</CommandEmpty>
-                      <CommandGroup>
-                        <CommandItem onSelect={() => { setSelectedClienteId(""); setClienteFilterOpen(false) }}>
-                          Todos os clientes
-                        </CommandItem>
-                        {clientes.map((cliente) => (
-                          <CommandItem
-                            key={cliente.id}
-                            onSelect={() => { setSelectedClienteId(cliente.id); setClienteFilterOpen(false) }}
-                          >
-                            {cliente.nome}
+              <div className="flex-1 min-w-[200px] max-w-[300px]">
+                <Popover open={clienteFilterOpen} onOpenChange={setClienteFilterOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      {selectedClienteId 
+                        ? clientes.find(c => c.id === selectedClienteId)?.nome || "Cliente selecionado"
+                        : "Cliente"
+                      }
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80 p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Buscar cliente..." />
+                      <CommandList>
+                        <CommandEmpty>Nenhum cliente encontrado.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem onSelect={() => { setSelectedClienteId(""); setClienteFilterOpen(false) }}>
+                            Todos os clientes
                           </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                          {clientes.map((cliente) => (
+                            <CommandItem
+                              key={cliente.id}
+                              onSelect={() => { setSelectedClienteId(cliente.id); setClienteFilterOpen(false) }}
+                            >
+                              {cliente.nome}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
 
               {/* Filtro por Mês */}
-              <MonthYearPicker
-                value={selectedMonth}
-                onSelect={(date) => handleDateFilterChange('month', date)}
-                placeholder="Mês"
-              />
+              <div className="min-w-[150px]">
+                <MonthYearPicker
+                  value={selectedMonth}
+                  onSelect={(date) => handleDateFilterChange('month', date)}
+                  placeholder="Mês"
+                />
+              </div>
 
               {/* Filtro de Referência - aparece apenas quando mês está selecionado */}
-              {selectedMonth ? (
-                <Select value={referenceFilter} onValueChange={setReferenceFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Referência" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="emprestimos">Empréstimos</SelectItem>
-                    <SelectItem value="parcelas">Parcelas</SelectItem>
-                  </SelectContent>
-                </Select>
-              ) : (
-                <div></div>
+              {selectedMonth && (
+                <div className="min-w-[150px]">
+                  <Select value={referenceFilter} onValueChange={setReferenceFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Referência" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="emprestimos">Empréstimos</SelectItem>
+                      <SelectItem value="parcelas">Parcelas</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               )}
 
               {/* Filtro por Data do Empréstimo */}
-              <Popover open={dataEmprestimoOpen} onOpenChange={setDataEmprestimoOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {selectedDataEmprestimo ? format(selectedDataEmprestimo, "dd/MM/yyyy") : "Data Empréstimo"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarComponent
-                    mode="single"
-                    selected={selectedDataEmprestimo}
-                    onSelect={(date) => { handleDateFilterChange('dataEmprestimo', date); setDataEmprestimoOpen(false) }}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
+              <div className="min-w-[170px]">
+                <Popover open={dataEmprestimoOpen} onOpenChange={setDataEmprestimoOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {selectedDataEmprestimo ? format(selectedDataEmprestimo, "dd/MM/yyyy") : "Data Empréstimo"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={selectedDataEmprestimo}
+                      onSelect={(date) => { handleDateFilterChange('dataEmprestimo', date); setDataEmprestimoOpen(false) }}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
 
               {/* Filtro por Status */}
-              <Popover open={statusFilterOpen} onOpenChange={setStatusFilterOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal">
-                    <Filter className="mr-2 h-4 w-4" />
-                    {selectedStatus.length > 0 ? `${selectedStatus.length} status` : "Status"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64 p-4" align="start">
-                  <div className="space-y-2">
-                    <h4 className="font-medium text-sm">Status</h4>
-                    {statusDisponiveis.map((status) => (
-                      <div key={status} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={status}
-                          checked={selectedStatus.includes(status)}
-                          onCheckedChange={() => toggleStatus(status)}
-                        />
-                        <label htmlFor={status} className="text-sm font-normal">
-                          {status}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <div className="min-w-[120px]">
+                <Popover open={statusFilterOpen} onOpenChange={setStatusFilterOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <Filter className="mr-2 h-4 w-4" />
+                      {selectedStatus.length > 0 ? `${selectedStatus.length} status` : "Status"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-64 p-4" align="start">
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-sm">Status</h4>
+                      {statusDisponiveis.map((status) => (
+                        <div key={status} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={status}
+                            checked={selectedStatus.includes(status)}
+                            onCheckedChange={() => toggleStatus(status)}
+                          />
+                          <label htmlFor={status} className="text-sm font-normal">
+                            {status}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
 
               {/* Filtro por Próxima Parcela */}
-              <Popover open={proximaParcelaOpen} onOpenChange={setProximaParcelaOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {selectedProximaParcela ? format(selectedProximaParcela, "dd/MM/yyyy") : "Próxima Parcela"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarComponent
-                    mode="single"
-                    selected={selectedProximaParcela}
-                    onSelect={(date) => { handleDateFilterChange('proximaParcela', date); setProximaParcelaOpen(false) }}
-                    initialFocus
-                    className={cn("p-3 pointer-events-auto")}
-                  />
-                </PopoverContent>
-              </Popover>
+              <div className="min-w-[170px]">
+                <Popover open={proximaParcelaOpen} onOpenChange={setProximaParcelaOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {selectedProximaParcela ? format(selectedProximaParcela, "dd/MM/yyyy") : "Próxima Parcela"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={selectedProximaParcela}
+                      onSelect={(date) => { handleDateFilterChange('proximaParcela', date); setProximaParcelaOpen(false) }}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
 
               {/* Botão Limpar Filtros */}
               <Button 
@@ -665,6 +675,7 @@ const Emprestimos = () => {
                 onClick={limparFiltros}
                 size="icon"
                 className="flex items-center justify-center shrink-0"
+                title="Limpar todos os filtros"
               >
                 <Eraser className="h-4 w-4" />
               </Button>
